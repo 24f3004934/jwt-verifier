@@ -23,6 +23,9 @@ class TokenRequest(BaseModel):
     token: str
 
 @app.post("/verify")
+@app.post("/api/index")
+def verify(request: TokenRequest):
+    # Keep your existing JWT verification logic here
 def verify(request: TokenRequest):
     try:
         claims = jwt.decode(
