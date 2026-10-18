@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -19,13 +20,12 @@ dQIDAQAB
 ISSUER = "https://idp.exam.local"
 AUDIENCE = "tds-k7emjvsu.apps.exam.local"
 
+
 class TokenRequest(BaseModel):
     token: str
 
+
 @app.post("/verify")
-@app.post("/api/index")
-def verify(request: TokenRequest):
-    # Keep your existing JWT verification logic here
 def verify(request: TokenRequest):
     try:
         claims = jwt.decode(
@@ -37,8 +37,19 @@ def verify(request: TokenRequest):
             options={"require": ["iss", "aud", "exp"]},
             leeway=0,
         )
+
         if claims.get("aud") != AUDIENCE:
             raise InvalidTokenError("Audience must match exactly")
-        return {"valid": True, "email": claims.get("email"), "sub": claims.get("sub"), "aud": claims["aud"]}
+
+        return {
+            "valid": True,
+            "email": claims.get("email"),
+            "sub": claims.get("sub"),
+            "aud": claims["aud"]
+        }
+
     except InvalidTokenError:
-        return JSONResponse(status_code=401, content={"valid": False})
+        return JSONResponse(
+            status_code=401,
+            content={"valid": False}
+        )
