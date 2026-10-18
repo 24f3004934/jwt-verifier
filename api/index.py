@@ -26,6 +26,7 @@ class TokenRequest(BaseModel):
 
 
 @app.post("/verify")
+@app.post("/api/index")
 def verify(request: TokenRequest):
     try:
         claims = jwt.decode(

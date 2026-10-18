@@ -3,7 +3,7 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/verify",
       "destination": "/api/index"
     }
   ]
